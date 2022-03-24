@@ -10,7 +10,7 @@
 #include "options.hpp"
 #include "chrome.h"
 #include "config.h"
-#include "resolver.h"
+
 
 RecvVarProxyFn fnNoSmoke;
 void NoSmoke(const CRecvProxyData *pData, void *pStruct, void *pOut)
@@ -49,7 +49,7 @@ DWORD WINAPI OnDllAttach(LPVOID base)
     // 
     // Wait at most 10s for the main game modules to be loaded.
     // 
-    if(Utils::WaitForModules(10000, { L"client_panorama.dll", L"engine.dll", L"shaderapidx9.dll" }) == WAIT_TIMEOUT) {
+    if(Utils::WaitForModules(10000, { L"client.dll", L"engine.dll", L"shaderapidx9.dll" }) == WAIT_TIMEOUT) {
         // One or more modules were not loaded in time
         return FALSE;
     }
@@ -67,6 +67,7 @@ DWORD WINAPI OnDllAttach(LPVOID base)
         Interfaces::Dump();
 		//p internet u know
         NetvarSys::Get().Initialize();
+        NetvarSys::Get().Dump();
         InputSys::Get().Initialize();
 		game.init();
         Hooks::Initialize();
@@ -94,7 +95,7 @@ DWORD WINAPI OnDllAttach(LPVOID base)
         // Menu Toggle
 
 		InputSys::Get().RegisterHotkey(VK_F3, []() {
-			resolver.reset = true;
+			//resolver.reset = true;
 		});
 		InputSys::Get().RegisterHotkey(VK_F1, []() {
 			configs::save("smt.meeza");
@@ -106,8 +107,9 @@ DWORD WINAPI OnDllAttach(LPVOID base)
 
         Utils::ConsolePrint("Finished.\n");
 
-		globs.gsa = (DWORD)(Utils::PatternScan(GetModuleHandleW(L"client_panorama.dll"), "55 8B EC 83 7D 08 FF 56 8B F1 74"));
+		globs.gsa = (DWORD)(Utils::PatternScan(GetModuleHandleW(L"client.dll"), "55 8B EC 83 7D 08 FF 56 8B F1 74"));
 		globs.aim = true;
+        vars.visuals.world.vmodelfov = 70;
 
         while(!g_Unload)
             Sleep(1000);

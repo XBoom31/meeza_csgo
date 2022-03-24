@@ -1,6 +1,6 @@
 #include "Visuals.h"
 #include "backtrake.h"
-#include "resolver.h"
+
 CVisuals Visuals;
 vgui::HFont font;
 
@@ -32,7 +32,10 @@ void CVisuals::Run()
 			if (!ent)
 				continue;
 			player_t* entity = nullptr;
-			if (ent->GetClientClass()->m_ClassID == ClassId_CCSPlayer)
+
+			auto asd = ent->GetClientClass()->m_ClassID;
+
+			if (asd == 40) // if entity is  a player
 			{
 				entity = (player_t*)ent;
 				if (!entity)
@@ -41,7 +44,8 @@ void CVisuals::Run()
 				if (entity == local)
 					continue;
 
-				if (i < 65 && entity->alive()) {
+				auto alive = entity->alive();
+				if (alive && i < 65 ) {
 					Main(entity);  // i did this just to not make this function 200 lines long
 				}
 				continue;
@@ -64,7 +68,7 @@ void CVisuals::Run()
 				weapon_t* weap = (weapon_t*)ent;
 				if (vars.visuals.world.weapons)
 				{
-					auto hdr = g_MdlInfo->GetStudioModel(weap->GetModel());
+					auto hdr = g_MdlInfo->GetStudiomodel(weap->GetModel());
 
 					if (strstr(hdr->szName, "dropped"))
 					{
@@ -129,7 +133,7 @@ void CVisuals::Main(player_t* entity) // 'main' means the player esp but naming 
 	else {
 		data = backups[entity->EntIndex()];
 		data.box = GetBox(data.pl);
-		GetColor()
+		GetColor();
 	}
 	if (g_GlobalVars->curtime - data.curtime > 7)
 		return;
@@ -164,9 +168,9 @@ void CVisuals::DestroyFonts(){}
 void CVisuals::Box()
 {
 	Vector left1, left2, right1, right2;
-	if (Math::WorldToScreen(globs.left1, left1) & Math::WorldToScreen(globs.left2, left2))
+	if (Math::WorldToScreen(globs.left1, left1) && Math::WorldToScreen(globs.left2, left2))
 		Render::Line(left1.x, left1.y, left2.x, left2.y, Color(255, 255, 255));
-	if (Math::WorldToScreen(globs.right1, right1) & Math::WorldToScreen(globs.right2, right2))
+	if (Math::WorldToScreen(globs.right1, right1) && Math::WorldToScreen(globs.right2, right2))
 		Render::Line(right1.x, right1.y, right2.x, right2.y, Color(255, 255, 255));
 	for (int x = 0; x < 13; x++)
 	{
@@ -221,58 +225,66 @@ void CVisuals::Clear()
 
 ESPBOX CVisuals::GetBox(entity_t* entity)
 {
-	//m_CollisionGroup - 0x30
-	const matrix3x4_t& trans = *reinterpret_cast<matrix3x4_t*>(uintptr_t(entity) + 0x00000440);
+	ESPBOX rect{};
+	auto collideable = entity->GetCollideable();
 
-	Vector min, max;
-	entity->GetRenderBounds(min, max);
+	if (!collideable)
+		return rect;
 
-	Vector points[] = { { min.x, min.y, min.z },
-	{ min.x, max.y, min.z },
-	{ max.x, max.y, min.z },
-	{ max.x, min.y, min.z },
-	{ max.x, max.y, max.z },
-	{ min.x, max.y, max.z },
-	{ min.x, min.y, max.z },
-	{ max.x, min.y, max.z } };
+	auto min = collideable->OBBMins();
+	auto max = collideable->OBBMaxs();
+
+	const matrix3x4_t& trans = entity->m_rgflCoordinateFrame();
+
+	Vector points[] =
+	{
+		Vector(min.x, min.y, min.z),
+		Vector(min.x, max.y, min.z),
+		Vector(max.x, max.y, min.z),
+		Vector(max.x, min.y, min.z),
+		Vector(max.x, max.y, max.z),
+		Vector(min.x, max.y, max.z),
+		Vector(min.x, min.y, max.z),
+		Vector(max.x, min.y, max.z)
+	};
 
 	Vector pointsTransformed[8];
+	for (int i = 0; i < 8; i++)
+	{
+		Math::VectorTransform(points[i], trans, pointsTransformed[i]);
+	}
+
+	Vector screen_points[8] = {};
 
 	for (int i = 0; i < 8; i++)
-		Math::VectorTransform(points[i], trans, pointsTransformed[i]);
+	{
+		if (!Math::WorldToScreen(pointsTransformed[i], screen_points[i]))
+			return rect;
+	}
 
-	Vector flb, brt, blb, frt, frb, brb, blt, flt;
-
-	if (g_DebugOverlay->ScreenPosition(pointsTransformed[3], flb) || g_DebugOverlay->ScreenPosition(pointsTransformed[5], brt)
-		|| g_DebugOverlay->ScreenPosition(pointsTransformed[0], blb) || g_DebugOverlay->ScreenPosition(pointsTransformed[4], frt)
-		|| g_DebugOverlay->ScreenPosition(pointsTransformed[2], frb) || g_DebugOverlay->ScreenPosition(pointsTransformed[1], brb)
-		|| g_DebugOverlay->ScreenPosition(pointsTransformed[6], blt) || g_DebugOverlay->ScreenPosition(pointsTransformed[7], flt))
-		return ESPBOX();
-
-	Vector arr[] = { flb, brt, blb, frt, frb, brb, blt, flt };
-
-	float left = flb.x;
-	float top = flb.y;
-	float right = flb.x;
-	float bottom = flb.y;
+	auto left = screen_points[0].x;
+	auto top = screen_points[0].y;
+	auto right = screen_points[0].x;
+	auto bottom = screen_points[0].y;
 
 	for (int i = 1; i < 8; i++)
 	{
-		if (left > arr[i].x)
-			left = arr[i].x;
-		if (bottom < arr[i].y)
-			bottom = arr[i].y;
-		if (right < arr[i].x)
-			right = arr[i].x;
-		if (top > arr[i].y)
-			top = arr[i].y;
+		if (left > screen_points[i].x)
+			left = screen_points[i].x;
+		if (bottom < screen_points[i].y)
+			bottom = screen_points[i].y;
+		if (right < screen_points[i].x)
+			right = screen_points[i].x;
+		if (top > screen_points[i].y)
+			top = screen_points[i].y;
 	}
-	return ESPBOX(left, top, right, bottom);
+
+	return ESPBOX{ (long)left, (long)top, (long)right, (long)bottom };
 }
 
 void CVisuals::Skeleton()
 {
-	studiohdr_t* pStudioModel = g_MdlInfo->GetStudioModel(data.pl->GetModel());
+	studiohdr_t* pStudioModel = g_MdlInfo->GetStudiomodel(data.pl->GetModel());
 	if (pStudioModel)
 	{
 		static matrix3x4_t pBoneToWorldOut[128];
@@ -401,6 +413,7 @@ std::wstring get_resolver(int ent) {
 	case RESOLVER_LAST_MOVING_LBY:
 		return L"last moving lby";
 	}
+	return L"Meme";
 }
 void CVisuals::Info()
 {
@@ -420,11 +433,11 @@ void CVisuals::Info()
 	if (*(float*)((int)data.pl + 0xA2EC) > 250.0)
 		info.push_back(L"flashed");
 
-	if (resolver.used_fake[data.pl->EntIndex()])
-		info.push_back(L"fake");
+	//if (resolver.used_fake[data.pl->EntIndex()])
+	//	info.push_back(L"fake");
 
-	if (resolver.breaking_lby[data.pl->EntIndex()])
-		info.push_back(L"breaking lby");
+	//if (resolver.breaking_lby[data.pl->EntIndex()])
+	//	info.push_back(L"breaking lby");
 	if(vars.visuals.player.information == 2)
 	info.push_back(get_resolver(data.pl->EntIndex()));
 

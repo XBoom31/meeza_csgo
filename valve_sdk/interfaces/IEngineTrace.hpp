@@ -120,7 +120,7 @@ enum class TraceType
 class ITraceFilter
 {
 public:
-	virtual bool ShouldHitEntity(IHandleEntity *pEntity, int contentsMask) = 0;
+	virtual bool ShouldHitEntity(IHandleEntity* pEntity, int contentsMask) = 0;
 	virtual TraceType GetTraceType() const = 0;
 };
 
@@ -223,7 +223,7 @@ public:
 	}
 
 private:
-	IClientEntity * pEnt;
+	IClientEntity* pEnt;
 };
 
 class CTraceFilterSkipTwoEntities : public ITraceFilter
@@ -244,7 +244,7 @@ public:
 	}
 
 private:
-	IClientEntity * pEnt1;
+	IClientEntity* pEnt1;
 	IClientEntity* pEnt2;
 };
 
@@ -271,7 +271,7 @@ class IEntityEnumerator
 {
 public:
 	// This gets called with each handle
-	virtual bool EnumEntity(IHandleEntity *pHandleEntity) = 0;
+	virtual bool EnumEntity(IHandleEntity* pHandleEntity) = 0;
 };
 
 
@@ -290,9 +290,9 @@ struct vcollide_t
 	unsigned short isPacked : 1;
 	unsigned short descSize;
 	// VPhysicsSolids
-	CPhysCollide   **solids;
-	char           *pKeyValues;
-	void           *pUserData;
+	CPhysCollide** solids;
+	char* pKeyValues;
+	void* pUserData;
 };
 
 struct cmodel_t
@@ -305,7 +305,7 @@ struct cmodel_t
 
 struct csurface_t
 {
-	const char     *name;
+	const char* name;
 	short          surfaceProps;
 	unsigned short flags;         // BUGBUG: These are declared per surface, not per material, but this database is per-material now
 };
@@ -319,7 +319,7 @@ struct Ray_t
 	VectorAligned  m_Delta;  // direction + length of the ray
 	VectorAligned  m_StartOffset; // Add this to m_Start to Get the actual ray start
 	VectorAligned  m_Extents;     // Describes an axis aligned box extruded along a ray
-	const matrix3x4_t *m_pWorldAxisTransform;
+	const matrix3x4_t* m_pWorldAxisTransform;
 	bool m_IsRay;  // are the extents zero?
 	bool m_IsSwept;     // is delta != 0?
 
@@ -419,7 +419,7 @@ public:
 	int                 hitgroup;           // 0 == generic, non-zero is specific body part
 	short               physicsbone;        // physics bone hit by trace in studio
 	unsigned short      worldSurfaceIndex;  // Index of the msurface2_t, if applicable
-	IClientEntity*      hit_entity;
+	IClientEntity* hit_entity;
 	int                 hitbox;                       // box hit by trace in studio
 
 	CGameTrace() {}
@@ -491,10 +491,10 @@ inline bool CGameTrace::IsVisible() const
 class IEngineTrace
 {
 public:
-	virtual int   GetPointContents(const Vector &vecAbsPosition, int contentsMask = MASK_ALL, IHandleEntity** ppEntity = nullptr) = 0;
-	virtual int   GetPointContents_WorldOnly(const Vector &vecAbsPosition, int contentsMask = MASK_ALL) = 0;
-	virtual int   GetPointContents_Collideable(ICollideable *pCollide, const Vector &vecAbsPosition) = 0;
-	virtual void  ClipRayToEntity(const Ray_t &ray, unsigned int fMask, IHandleEntity *pEnt, CGameTrace *pTrace) = 0;
-	virtual void  ClipRayToCollideable(const Ray_t &ray, unsigned int fMask, ICollideable *pCollide, CGameTrace *pTrace) = 0;
-	virtual void  TraceRay(const Ray_t &ray, unsigned int fMask, ITraceFilter *pTraceFilter, CGameTrace *pTrace) = 0;
+	virtual int   GetPointContents(const Vector& vecAbsPosition, int contentsMask = MASK_ALL, IHandleEntity** ppEntity = nullptr) = 0;
+	virtual int   GetPointContents_WorldOnly(const Vector& vecAbsPosition, int contentsMask = MASK_ALL) = 0;
+	virtual int   GetPointContents_Collideable(ICollideable* pCollide, const Vector& vecAbsPosition) = 0;
+	virtual void  ClipRayToEntity(const Ray_t& ray, unsigned int fMask, IHandleEntity* pEnt, CGameTrace* pTrace) = 0;
+	virtual void  ClipRayToCollideable(const Ray_t& ray, unsigned int fMask, ICollideable* pCollide, CGameTrace* pTrace) = 0;
+	virtual void  TraceRay(const Ray_t& ray, unsigned int fMask, ITraceFilter* pTraceFilter, CGameTrace* pTrace) = 0;
 };

@@ -4,7 +4,7 @@
 #include "helpers/input.hpp"
 #include "helpers/utils.hpp"
 #include "helpers/math.hpp"
-#include "../CSGOSimple/valve_sdk/sdk.hpp"
+#include "valve_sdk/sdk.hpp"
 
 class CLegitBot
 {

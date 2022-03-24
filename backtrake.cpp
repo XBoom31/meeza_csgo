@@ -1,5 +1,5 @@
 #include "backtrake.h"
-#include "../CSGOSimple/helpers/math.hpp"
+#include "helpers/math.hpp"
 #include "options.hpp"
 
 #define TICK_INTERVAL			(g_GlobalVars->interval_per_tick)

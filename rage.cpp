@@ -1,6 +1,6 @@
 #include "Rage.h"
 #include "options.hpp"
-#include "resolver.h"
+
 
 #define TICKS_TO_TIME(t) (g_GlobalVars->interval_per_tick * (t))
 Animations anims;
@@ -145,7 +145,7 @@ void Animations::UpdateServerAnimations(CUserCmd *userCMD, bool *bsendpacket)
 }
 void Animations::CreateAnimationState(CCSGOPlayerAnimState* state, player_t* player) {
 	using CreateAnimState_t = void(__thiscall*)(CCSGOPlayerAnimState*, player_t*);
-	static auto CreateAnimState = (CreateAnimState_t)Utils::PatternScan(GetModuleHandle(L"client_panorama.dll"), "55 8B EC 56 8B F1 B9 ? ? ? ? C7 46");
+	static auto CreateAnimState = (CreateAnimState_t)Utils::PatternScan(GetModuleHandle(L"client.dll"), "55 8B EC 56 8B F1 B9 ? ? ? ? C7 46");
 	if (!CreateAnimState)
 		return;
 
@@ -157,7 +157,7 @@ void Animations::UpdateAnimationState(CCSGOPlayerAnimState *state, QAngle angle)
 {
 	typedef void(__vectorcall *fnUpdateAnimState)(void*, void*, float, float, float, void*);
 
-	static auto UpdateAnimState = (fnUpdateAnimState)Utils::PatternScan(GetModuleHandle(L"client_panorama.dll"), "55 8B EC 83 E4 F8 83 EC 18 56 57 8B F9 F3 0F 11 54 24");
+	static auto UpdateAnimState = (fnUpdateAnimState)Utils::PatternScan(GetModuleHandle(L"client.dll"), "55 8B EC 83 E4 F8 83 EC 18 56 57 8B F9 F3 0F 11 54 24");
 
 	if (!UpdateAnimState)
 		return;
@@ -167,7 +167,7 @@ void Animations::UpdateAnimationState(CCSGOPlayerAnimState *state, QAngle angle)
 
 void Animations::ResetAnimationState(CCSGOPlayerAnimState* state) {
 	using ResetAnimState_t = void(__thiscall*)(CCSGOPlayerAnimState*);
-	static auto ResetAnimState = (ResetAnimState_t)Utils::PatternScan(GetModuleHandle(L"client_panorama.dll"), "56 6A 01 68 ? ? ? ? 8B F1");
+	static auto ResetAnimState = (ResetAnimState_t)Utils::PatternScan(GetModuleHandle(L"client.dll"), "56 6A 01 68 ? ? ? ? 8B F1");
 	if (!ResetAnimState)
 		return;
 
@@ -617,6 +617,7 @@ int l4rg3_r3s0lv3r(player_t* player)
 		if (CanHit(player->hitbox_pos(h), vars.rage.mindmg))
 			return h;
 	}
+	return 0;
 }
 void AutoCockRevolver(weapon_t* weapon, CUserCmd *cmd)
 {

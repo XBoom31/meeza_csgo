@@ -15,7 +15,7 @@ public:
     virtual int   GetButtonBits(int);
     virtual void  CreateMove(int sequence_number, float input_sample_frametime, bool active);
     virtual void  ExtraMouseSample(float frametime, bool active);
-    virtual bool  WriteUsercmdDeltaToBuffer(bf_write *buf, int from, int to, bool isnewcommand);
+    virtual bool  WriteUsercmdDeltaToBuffer(bf_write* buf, int from, int to, bool isnewcommand);
     virtual void  EncodeUserCmdToBuffer(bf_write& buf, int slot);
     virtual void  DecodeUserCmdFromBuffer(bf_read& buf, int slot);
 
@@ -23,29 +23,28 @@ public:
     inline CUserCmd* GetUserCmd(int sequence_number);
     inline CVerifiedUserCmd* GetVerifiedCmd(int sequence_number);
 
-    bool                m_fTrackIRAvailable;            //0x04
-    bool                m_fMouseInitialized;            //0x05
-    bool                m_fMouseActive;                 //0x06
-    bool                m_fJoystickAdvancedInit;        //0x07
-    char                pad_0x08[0x2C];                 //0x08
-    void*               m_pKeys;                        //0x34
-    char                pad_0x38[0x6C];                 //0x38
-    bool                m_fCameraInterceptingMouse;     //0x9C
-    bool                m_fCameraInThirdPerson;         //0x9D
-    bool                m_fCameraMovingWithMouse;       //0x9E
-    Vector              m_vecCameraOffset;              //0xA0
-    bool                m_fCameraDistanceMove;          //0xAC
-    int                 m_nCameraOldX;                  //0xB0
-    int                 m_nCameraOldY;                  //0xB4
-    int                 m_nCameraX;                     //0xB8
-    int                 m_nCameraY;                     //0xBC
-    bool                m_CameraIsOrthographic;         //0xC0
-    QAngle              m_angPreviousViewAngles;        //0xC4
-    QAngle              m_angPreviousViewAnglesTilt;    //0xD0
-    float               m_flLastForwardMove;            //0xDC
-    int                 m_nClearInputState;             //0xE0
-    CUserCmd*           m_pCommands;                    //0xEC
-    CVerifiedUserCmd*   m_pVerifiedCommands;            //0xF0
+    char pad_0000[8]; //0x0000
+    bool m_fTrackIRAvailable; //0x000C
+    bool m_fMouseInitialized; //0x000D
+    bool m_fMouseActive; //0x000E
+    bool m_fJoystickAdvancedInit; //0x000F
+    char pad_0010[156]; //0x0010
+    bool m_fCameraInterceptingMouse; //0x00C0
+    bool m_fCameraInThirdPerson; //0x00C1
+    bool m_fCameraMovingWithMouse; //0x00C2
+    char pad_00C3[1]; //0x00C3
+    Vector m_vecCameraOffset; //0x00C4
+    bool m_fCameraDistanceMove; //0x00D0
+    char pad_00D1[19]; //0x00D1
+    bool m_CameraIsOrthographic; //0x00E4
+    bool m_CameraIsThirdPersonOverview; //0x00E5
+    char pad_00E6[2]; //0x00E6
+    QAngle m_angPreviousViewAngles;
+    QAngle m_angPreviousViewAnglesTilt;
+    float m_flLastForwardMove; //0x0100
+    int32_t m_nClearInputState; //0x0104
+    CUserCmd* m_pCommands; //0x0108
+    CVerifiedUserCmd* m_pVerifiedCommands; //0x010C
 };
 
 CUserCmd* CInput::GetUserCmd(int sequence_number)

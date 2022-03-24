@@ -27,14 +27,20 @@ bool entity_t::is_defuse()
 {
 	return GetClientClass()->m_ClassID == ClassId_CBaseAnimating;
 }
-
+/*
 weapon_info_t* weapon_t::get_weapon_data()
 {
 	static auto fnGetWpnData
 		= reinterpret_cast<weapon_info_t*(__thiscall*)(void*)>(
-			Utils::PatternScan(GetModuleHandleW(L"client_panorama.dll"), "55 8B EC 81 EC ? ? ? ? 53 8B D9 56 57 8D 8B")
+			Utils::PatternScan(GetModuleHandleW(L"client.dll"), "55 8B EC 81 EC ? ? ? ? 53 8B D9 56 57 8D 8B")
 			);
 	return fnGetWpnData(this);
+}*/
+
+weapon_info_t* weapon_t::get_weapon_data()
+{
+	using fn = weapon_info_t * (__thiscall*)(void*);
+	return (*(fn**)this)[461](this);
 }
 
 bool weapon_t::has_bullets()
@@ -88,28 +94,28 @@ bool weapon_t::is_awp()
 
 bool weapon_t::is_reloading()
 {
-	static auto inReload = *(uint32_t*)(Utils::PatternScan(GetModuleHandleW(L"client_panorama.dll"), "C6 87 ? ? ? ? ? 8B 06 8B CE FF 90") + 2);
+	static auto inReload = *(uint32_t*)(Utils::PatternScan(GetModuleHandleW(L"client.dll"), "C6 87 ? ? ? ? ? 8B 06 8B CE FF 90") + 2);
 	return *(bool*)((uintptr_t)this + inReload);
 }
 
 float weapon_t::innacuracy()
 {
-	return CallVFunction<float(__thiscall*)(void*)>(this, 467)(this);
+	return CallVFunction<float(__thiscall*)(void*)>(this, 483)(this);
 }
 
 float weapon_t::spread()
 {
-	return CallVFunction<float(__thiscall*)(void*)>(this, 436)(this);
+	return CallVFunction<float(__thiscall*)(void*)>(this, 453)(this);
 }
 
 void weapon_t::update_accurracy_penalty()
 {
-	CallVFunction<void(__thiscall*)(void*)>(this, 471)(this);
+	CallVFunction<void(__thiscall*)(void*)>(this, 484)(this);
 }
 
 CUserCmd*& player_t::m_pCurrentCommand()
 {
-	static auto currentCommand = *(uint32_t*)(Utils::PatternScan(GetModuleHandleW(L"client_panorama.dll"), "89 BE ? ? ? ? E8 ? ? ? ? 85 FF") + 2);
+	static auto currentCommand = *(uint32_t*)(Utils::PatternScan(GetModuleHandleW(L"client.dll"), "89 BE ? ? ? ? E8 ? ? ? ? 85 FF") + 2);
 	return *(CUserCmd**)((uintptr_t)this + currentCommand);
 }
 
@@ -127,14 +133,16 @@ player_info_t player_t::player_info()
 
 bool player_t::alive()
 {
-	return m_lifeState() == LIFE_ALIVE;
+	//Utils::ConsolePrint((const char*)m_lifeState());
+	auto hp = m_iHealth();
+	return ( bool )(hp > 0);//m_lifeState() == LIFE_ALIVE;
 }
 
 bool player_t::has_bomb()
 {
 	static auto fnhas_bomb
 		= reinterpret_cast<bool(__thiscall*)(void*)>(
-			Utils::PatternScan(GetModuleHandleW(L"client_panorama.dll"), "56 8B F1 85 F6 74 31")
+			Utils::PatternScan(GetModuleHandleW(L"client.dll"), "56 8B F1 85 F6 74 31")
 			);
 
 	return fnhas_bomb(this);
@@ -146,7 +154,7 @@ animation_layer& player_t::get_anim_overlay(int Index)
 }
 int player_t::get_sequence_activity(int sequence)
 {
-	auto hdr = g_MdlInfo->GetStudioModel(this->GetModel());
+	auto hdr = g_MdlInfo->GetStudiomodel(this->GetModel());
 
 	if (!hdr)
 		return -1;
@@ -163,7 +171,8 @@ Vector player_t::hitbox_pos(int hitbox_id)
 	matrix3x4_t boneMatrix[MAXSTUDIOBONES];
 
 	if (SetupBones(boneMatrix, MAXSTUDIOBONES, BONE_USED_BY_HITBOX, 0.0f)) {
-		auto studio_model = g_MdlInfo->GetStudioModel(GetModel());
+		auto m = GetModel();
+		auto studio_model = g_MdlInfo->GetStudiomodel(m);
 		if (studio_model) {
 			auto hitbox = studio_model->GetHitboxSet(0)->GetHitbox(hitbox_id);
 			if (hitbox) {
@@ -190,7 +199,7 @@ bool player_t::hitbox_pos(int hitbox, Vector &output)
 	if (!model)
 		return false;
 
-	studiohdr_t *studioHdr = g_MdlInfo->GetStudioModel(model);
+	studiohdr_t *studioHdr = g_MdlInfo->GetStudiomodel(model);
 	if (!studioHdr)
 		return false;
 

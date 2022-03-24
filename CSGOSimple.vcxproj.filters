@@ -132,9 +132,6 @@
     <ClCompile Include="valve_sdk\math\VMatrix.cpp">
       <Filter>sdk</Filter>
     </ClCompile>
-    <ClCompile Include="junk.h">
-      <Filter>sdk</Filter>
-    </ClCompile>
     <ClCompile Include="engine_prediction.cpp">
       <Filter>backend</Filter>
     </ClCompile>
@@ -159,9 +156,6 @@
     <ClCompile Include="visuals.cpp">
       <Filter>visuals</Filter>
     </ClCompile>
-    <ClCompile Include="resolver.cpp">
-      <Filter>ragebot</Filter>
-    </ClCompile>
     <ClCompile Include="skinchanger.cpp">
       <Filter>skinchanger</Filter>
     </ClCompile>
@@ -177,13 +171,7 @@
     <ClCompile Include="menu.cpp">
       <Filter>menu</Filter>
     </ClCompile>
-    <ClCompile Include="newresolver.cpp">
-      <Filter>ragebot</Filter>
-    </ClCompile>
     <ClCompile Include="hitmarker.cpp" />
-    <ClCompile Include="resovler2.cpp">
-      <Filter>ragebot</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="chrome.h">
@@ -450,9 +438,6 @@
     <ClInclude Include="visuals.h">
       <Filter>visuals</Filter>
     </ClInclude>
-    <ClInclude Include="resolver.h">
-      <Filter>ragebot</Filter>
-    </ClInclude>
     <ClInclude Include="skinchanger.h">
       <Filter>skinchanger</Filter>
     </ClInclude>
@@ -473,9 +458,6 @@
     </ClInclude>
     <ClInclude Include="menu.h">
       <Filter>menu</Filter>
-    </ClInclude>
-    <ClInclude Include="newresolver.h">
-      <Filter>ragebot</Filter>
     </ClInclude>
     <ClInclude Include="hitmarker.h">
       <Filter>hitmaker</Filter>

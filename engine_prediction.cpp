@@ -25,7 +25,7 @@ void engine_prediction::run(CUserCmd* cmd)
 	const auto getRandomSeed = [cm]()
 	{
 		using MD5_PseudoRandomFn = unsigned long(__cdecl*)(std::uintptr_t);
-		auto client = GetModuleHandleW(L"client_panorama.dll");
+		auto client = GetModuleHandleW(L"client.dll");
 		static auto offset = Utils::PatternScan(client , "55 8B EC 83 E4 F8 83 EC 70 6A 58");
 		static auto MD5_PseudoRandom = reinterpret_cast<MD5_PseudoRandomFn>(offset);
 		

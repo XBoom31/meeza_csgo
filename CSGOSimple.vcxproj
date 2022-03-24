@@ -14,20 +14,20 @@
     <ProjectGuid>{F3E42845-8D56-4BB3-821D-8163AB1337F0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CSGOSimple</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
     <ProjectName>meeza</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -61,7 +61,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CSGOSIMPLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -115,13 +115,10 @@
     <ClCompile Include="KitParser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
-    <ClCompile Include="newresolver.cpp" />
     <ClCompile Include="notificationsystem.cpp" />
     <ClCompile Include="options.cpp" />
     <ClCompile Include="rage.cpp" />
     <ClCompile Include="render.cpp" />
-    <ClCompile Include="resolver.cpp" />
-    <ClCompile Include="resovler2.cpp" />
     <ClCompile Include="skinchanger.cpp" />
     <ClCompile Include="triggerbot.cpp" />
     <ClCompile Include="valve_sdk\csgostructs.cpp" />
@@ -140,7 +137,6 @@
     <ClCompile Include="visuals.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="junk.h" />
     <ClInclude Include="aim_assistance.h" />
     <ClInclude Include="autowall.h" />
     <ClInclude Include="backtrake.h" />
@@ -169,12 +165,10 @@
     <ClInclude Include="ItemDefinitions.h" />
     <ClInclude Include="KitParser.h" />
     <ClInclude Include="menu.h" />
-    <ClInclude Include="newresolver.h" />
     <ClInclude Include="notificationsystem.h" />
     <ClInclude Include="options.hpp" />
     <ClInclude Include="rage.h" />
     <ClInclude Include="render.h" />
-    <ClInclude Include="resolver.h" />
     <ClInclude Include="resovler2.h" />
     <ClInclude Include="singleton.hpp" />
     <ClInclude Include="skinchanger.h" />

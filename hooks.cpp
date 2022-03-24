@@ -12,14 +12,13 @@
 #include "features/glow.hpp"
 #include "Rage.h"
 #include "engine_prediction.h"
-#include "resolver.h"
 #include "ItemDefinitions.h"
 #include "chrome.h"
 #include "triggerbot.h"
 #include "skinchanger.h"
 #include "notificationsystem.h"
 #include "game_events.h"
-#include "newresolver.h"
+
 std::vector<const char*> smoke_materials = {
 	"particle/vistasmokev1/vistasmokev1_smokegrenade",
 	"particle/vistasmokev1/vistasmokev1_emods",
@@ -156,7 +155,7 @@ namespace Hooks
 
 		viewmodel_fov->m_fnChangeCallbacks.m_Size = 0;
 		viewmodel_fov->SetValue(vars.visuals.world.vmodelfov);
-		static auto linegoesthrusmoke = Utils::FindPattern("client_panorama.dll", (PBYTE)"\x55\x8B\xEC\x83\xEC\x08\x8B\x15\x00\x00\x00\x00\x0F\x57\xC0", "xxxxxxxx????xxx");
+		static auto linegoesthrusmoke = Utils::FindPattern("client.dll", (PBYTE)"\x55\x8B\xEC\x83\xEC\x08\x8B\x15\x00\x00\x00\x00\x0F\x57\xC0", "xxxxxxxx????xxx");
 		static auto smokecout = *(DWORD*)(linegoesthrusmoke + 0x8);
 		if (vars.visuals.world.nosmoke) *(int*)(smokecout) = 0;
 		if (vars.visuals.world.noflash && local) local->m_flFlashMaxAlpha() = 0;
@@ -482,7 +481,7 @@ namespace Hooks
 		// Auto Accept
 		if (strstr(name, "UI/competitive_accept_beep.wav")) {
 			static auto fnAccept =
-				(void(*)())Utils::PatternScan(GetModuleHandleA("client_panorama.dll"), "55 8B EC 83 E4 F8 83 EC 08 56 8B 35 ? ? ? ? 57 83 BE");
+				(void(*)())Utils::PatternScan(GetModuleHandleA("client.dll"), "55 8B EC 83 E4 F8 83 EC 08 56 8B 35 ? ? ? ? 57 83 BE");
 
 			fnAccept();
 
@@ -648,8 +647,8 @@ namespace Hooks
 		}
 		if (stage == FRAME_NET_UPDATE_POSTDATAUPDATE_START) {
 			skinchanger.frame_stage_notify();
-			if (vars.rage.resolver)
-				newresolver::run();
+			//if (vars.rage.resolver)
+				//newresolver::run();
 		}
 
 

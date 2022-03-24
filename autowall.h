@@ -1,8 +1,8 @@
 #pragma once
-#include "../CSGOSimple/helpers/math.hpp"
-#include "../CSGOSimple/helpers/utils.hpp"
-#include "../CSGOSimple/helpers/input.hpp"
-#include "../CSGOSimple/valve_sdk/csgostructs.hpp"
+#include "helpers/math.hpp"
+#include "helpers/utils.hpp"
+#include "helpers/input.hpp"
+#include "valve_sdk/csgostructs.hpp"
 
 #define	HITGROUP_GENERIC	0
 #define	HITGROUP_HEAD		1

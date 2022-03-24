@@ -1,5 +1,5 @@
 #pragma once
-#include "../CSGOSimple/valve_sdk/csgostructs.hpp"
+#include "valve_sdk/csgostructs.hpp"
 
 namespace Render
 {

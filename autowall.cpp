@@ -30,7 +30,7 @@
 
 /*const bool IsBreakableEntity(player_t* pl)
 {
-static auto offset = Utils::PatternScan(GetModuleHandleW(L"client_panorama.dll"), "55 8B EC 51 56 8B F1 85 F6 74 68");
+static auto offset = Utils::PatternScan(GetModuleHandleW(L"client.dll"), "55 8B EC 51 56 8B F1 85 F6 74 68");
 return (bool*)((uintptr_t)pl + offset);
 }*/
 

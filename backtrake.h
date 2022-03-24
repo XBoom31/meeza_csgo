@@ -1,5 +1,5 @@
 #pragma once
-#include "../CSGOSimple/valve_sdk/csgostructs.hpp"
+#include "valve_sdk/csgostructs.hpp"
 
 #define NUM_OF_TICKS 12
 

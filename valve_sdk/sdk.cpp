@@ -53,7 +53,7 @@ namespace Interfaces
     void Initialize()
     {
         auto engineFactory    = get_module_factory(GetModuleHandleW(L"engine.dll"));
-        auto clientFactory    = get_module_factory(GetModuleHandleW(L"client_panorama.dll"));
+        auto clientFactory    = get_module_factory(GetModuleHandleW(L"client.dll"));
         auto valveStdFactory  = get_module_factory(GetModuleHandleW(L"vstdlib.dll"));
         auto vguiFactory      = get_module_factory(GetModuleHandleW(L"vguimatsurface.dll"));
         auto vgui2Factory     = get_module_factory(GetModuleHandleW(L"vgui2.dll"));
@@ -84,12 +84,12 @@ namespace Interfaces
         g_PhysSurface         = get_interface<IPhysicsSurfaceProps>(vphysicsFactory , "VPhysicsSurfaceProps001");
 		g_Localize            = get_interface<ILocalize>           (LocalizeFactory , "Localize_001");
 		
-        auto client = GetModuleHandleW(L"client_panorama.dll");
+        auto client = GetModuleHandleW(L"client.dll");
         auto engine = GetModuleHandleW(L"engine.dll");
         auto dx9api = GetModuleHandleW(L"shaderapidx9.dll");
 
         g_GlobalVars      =  **(CGlobalVarsBase***)(Utils::PatternScan(client, "A1 ? ? ? ? 5E 8B 40 10") + 1);
-        g_ClientMode      =        *(IClientMode**)(Utils::PatternScan(client, "A1 ? ? ? ? 8B 80 ? ? ? ? 5D") + 1);
+        g_ClientMode      =        *(IClientMode**)(Utils::PatternScan(client, "B9 ? ? ? ? E8 ? ? ? ? 84 C0 0F 85 ? ? ? ? 53") + 1);
         g_Input           =             *(CInput**)(Utils::PatternScan(client, "B9 ? ? ? ? 8B 40 38 FF D0 84 C0 0F 85") + 1);
         g_MoveHelper      =      **(IMoveHelper***)(Utils::PatternScan(client, "8B 0D ? ? ? ? 8B 45 ? 51 8B D4 89 02 8B 01") + 2);
         g_GlowObjManager  = *(CGlowObjectManager**)(Utils::PatternScan(client, "0F 11 05 ? ? ? ? 83 C8 01") + 3);
