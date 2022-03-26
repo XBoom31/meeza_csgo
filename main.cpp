@@ -10,6 +10,7 @@
 #include "options.hpp"
 #include "chrome.h"
 #include "config.h"
+#include "vguimenu.h"
 
 
 RecvVarProxyFn fnNoSmoke;
@@ -78,14 +79,17 @@ DWORD WINAPI OnDllAttach(LPVOID base)
         //          is called from the WndProc thread, not this thread.
         // 
 
-		/*if(!g_Unload)
-		InputSys::Get().RegisterHotkey(VK_LBUTTON, []() {
-			menu.Click();
-		});*/
+		
+        InputSys::Get().RegisterHotkey(VK_LBUTTON, []() {
+            oldmenu.Click();
+            });
 
 		InputSys::Get().RegisterHotkey(VK_INSERT, []() {
 			menu.Toggle();
 		});
+        InputSys::Get().RegisterHotkey(VK_HOME, []() {
+            oldmenu.Toggle();
+        });
         // Panic button
         InputSys::Get().RegisterHotkey(VK_DELETE, []() {
 			if (menu.IsVisible())

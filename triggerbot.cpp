@@ -19,7 +19,7 @@ void triggerbot::createmove(CUserCmd* cmd)
 
 	Vector dir; Math::AngleVectors(cmd->viewangles, dir);
 	Vector start      = local->eye_pos();
-	Vector direction  =  dir * weapon_data->flRange;
+	Vector direction  =  dir * 8192; // flrange should be instead of 8192 but we testin'
 	Vector end        = start + direction;
 
 	trace_t trace;

@@ -134,6 +134,7 @@
     <ClCompile Include="valve_sdk\misc\UtlBuffer.cpp" />
     <ClCompile Include="valve_sdk\misc\UtlString.cpp" />
     <ClCompile Include="valve_sdk\netvars.cpp" />
+    <ClCompile Include="vguimenu.cc" />
     <ClCompile Include="visuals.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +234,7 @@
     <ClInclude Include="valve_sdk\misc\UtlVector.hpp" />
     <ClInclude Include="valve_sdk\misc\vfunc.hpp" />
     <ClInclude Include="valve_sdk\netvars.hpp" />
+    <ClInclude Include="vguimenu.h" />
     <ClInclude Include="visuals.h" />
     <ClInclude Include="wconf.h" />
   </ItemGroup>

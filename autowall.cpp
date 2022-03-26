@@ -486,7 +486,8 @@ bool Autowall::FireBullet(weapon_t* pWeapon, Vector& direction, float& currentDa
 	if (!weaponData)
 		return false;
 
-	maxRange = weaponData->flRange;
+	//maxRange = weaponData->flRange;
+	maxRange = 8192;
 
 	GetBulletTypeParameters(penetrationPower, penetrationDistance, weaponData->szBulletType, sv_penetration_type);
 

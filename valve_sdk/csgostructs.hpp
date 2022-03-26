@@ -58,19 +58,20 @@ public:
 	int   iWeaponType;     
 	char  pad_0x00CC[32];
 	bool bFullAuto;
-	char urmumgay[0x3];
-	int   m_iDamage;         
+	char padd[0x3];
+	int   iDamage;         
 	float flArmorRatio;     
-	char  pad_0x00F8[0x4]; 
+	int iBullets;
+	//char  pad_0x00F8[0x2]; 
 	float flPenetration;    
-	char  pad_0x0100[0x8]; 
+	char  pad_0x0100[0x4]; 
 	float flRange;            
 	float flRangeModifier;  
 	CSWeaponType WeaponType;
-	char  pad_0x0110[0x20]; 
+	char  pad_0x0110[0x24]; 
 	float flMaxPlayerSpeed;       
 	float flMaxSpeedAlt;    
-	int iDamage;                      
+	//int iDamage;                      
 };
 
 enum CSGO_ACTS

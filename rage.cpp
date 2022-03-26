@@ -768,7 +768,7 @@ int CRagebot::HitScan(player_t* player)
 	else
 	{ //straight apocalypse v1 paste
 		std::vector<int> HitBoxesToScan;
-		auto w = player->m_hActiveWeapon();
+		auto w = local->m_hActiveWeapon();
 		if (!w)
 			return -1;
 		auto da = w->get_weapon_data();

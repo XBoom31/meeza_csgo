@@ -12,6 +12,7 @@
 #include "imgui/directx9/imgui_impl_dx9.h"
 #include "helpers\utils.hpp"
 #include "config.h"
+#include "vguimenu.h"
 Menu menu;
 
 
@@ -282,6 +283,11 @@ void Menu::Render() //i can dont worry but where did u initialize your old menu 
 			ImGui::ListBox("Colors", &selectedcolor, color_names, ARRAYSIZE(color_names));
 
 			ImGuiEx::ColorEdit4("", &vars.settings.colors[selectedcolor]);
+
+			if (ImGui::Button("vguimenu init", ImVec2(60, 20))) {
+				oldmenu.Init();
+			}
+			break;
 
 		
 		}

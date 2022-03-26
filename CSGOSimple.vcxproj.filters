@@ -172,6 +172,9 @@
       <Filter>menu</Filter>
     </ClCompile>
     <ClCompile Include="hitmarker.cpp" />
+    <ClCompile Include="vguimenu.cc">
+      <Filter>menu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="chrome.h">
@@ -467,6 +470,9 @@
     </ClInclude>
     <ClInclude Include="resovler2.h">
       <Filter>ragebot</Filter>
+    </ClInclude>
+    <ClInclude Include="vguimenu.h">
+      <Filter>menu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

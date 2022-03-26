@@ -18,6 +18,7 @@
 #include "skinchanger.h"
 #include "notificationsystem.h"
 #include "game_events.h"
+#include "vguimenu.h"
 
 std::vector<const char*> smoke_materials = {
 	"particle/vistasmokev1/vistasmokev1_smokegrenade",
@@ -309,7 +310,7 @@ namespace Hooks
 			if (!cmd || !cmd->command_number || !verified)
 				return;
 			QAngle wish_angle = cmd->viewangles;
-			static int fakelag;
+			static int fakelag = 0;
 			if (vars.misc.fakelag) {
 				if (fakelag < 13) {
 					bSendPacket = false;
@@ -464,7 +465,7 @@ namespace Hooks
 				}
 
 			}
-			//menu.PaintTraverse();
+			oldmenu.PaintTraverse();
 			NotificatonSys.painttransverse(); //always... always.. run this after the menu
 			if (vars.misc.hitmarker)
 				hitmarker.paint();

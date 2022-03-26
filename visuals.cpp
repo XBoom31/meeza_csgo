@@ -132,6 +132,7 @@ void CVisuals::Main(player_t* entity) // 'main' means the player esp but naming 
 	}
 	else {
 		data = backups[entity->EntIndex()];
+		data.pl = entity;
 		data.box = GetBox(data.pl);
 		GetColor();
 	}

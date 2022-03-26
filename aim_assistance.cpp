@@ -403,8 +403,7 @@ inline void CLegitBot::getconf()
 
 inline int CLegitBot::gethitbox()
 {
-	if (config.hitscan)
-	{
+	
 		int besthitbox = HITBOX_HEAD;
 		float bestfov = 100;
 		for (int x = 0; x < HITBOX_MAX; x++)
@@ -417,8 +416,5 @@ inline int CLegitBot::gethitbox()
 			}
 		}
 		return besthitbox;
-	}
-	else
-		return HITBOX_HEAD;
-	return 0;
+
 }
